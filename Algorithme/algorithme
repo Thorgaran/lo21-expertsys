@@ -1,0 +1,13 @@
+while there is at least one fact f remaining in the FB
+
+    for each rule r from KB do
+
+        if f ∈ premise(r) then remove(premise(r),f)
+        end if
+        
+        if is_empty(premise(r)) then add(FB,conclusion)
+        end if
+
+    end for
+
+end while
