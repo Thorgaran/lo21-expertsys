@@ -27,14 +27,19 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
+Fact creat_conclusion(Rule rule, int id, char* desc) {
+	rule.conclusion.id = id;
+	rule.conclusion.desc = desc;
 
+	return rule.conclusion;
+}
 
 Rule empty_rule(){
 	//crée une règle vide
     Rule emp_rule;
-	emp_rule.premise.head=NULL;
-	emp_rule.conclusion.id=NULL;
-	emp_rule.conclusion.desc=NULL;
+	emp_rule.premise.head = NULL;
+	emp_rule.conclusion.id = NULL;
+	emp_rule.conclusion.desc = NULL;
 
 	return emp_rule;
 }
@@ -42,7 +47,7 @@ Rule empty_rule(){
 
 void is_premise_empty(Rule rule){
 	//vérifie si la premisse d'une règle est vide
-	if(rule.premise.head==NULL){
+	if(rule.premise.head == NULL){
 		return true;
 	}
 	else{

@@ -1,3 +1,5 @@
+inference engine
+
 while there is at least one fact f remaining in the FB
 
     for each rule r from KB do
@@ -11,3 +13,107 @@ while there is at least one fact f remaining in the FB
     end for
 
 end while
+
+
+---------------------------------------------------
+
+function is_premise_empty
+
+data: rule
+output:true or false
+
+    if head(premise(rule)) = Undefined then
+        return true 
+    else
+         return false
+    end if
+end
+
+--------------------------------------------------
+
+function empty_rule
+
+data:void
+output: rule (empty)
+
+    Rule emp_rule
+    head(premise(emp_rule)) = Undefined
+    id(conclusion(emp_rule)) = Undefined
+    desc(conclusion(emp_rule)) = Undefined
+
+    return emp_rule
+end
+
+-------------------------------------------------
+
+Function FB_insert_head
+
+data: FactBase, Fact, FactBaseElem
+Output: FactBase
+
+FactBaseElem new_el
+
+    new_el = creat(element)
+    fact(new_el) = fact
+    next(new_el) = head(premise)
+    prev(new_el) = Undefined
+
+    if is_empty(head(premise)) then
+        tail(premise) = new_el
+    else
+        prev(head(premise)) = new_el
+    end if
+
+    head(premise) = new_el
+
+return premise
+
+-------------------------------------------------
+
+Function FB_insert_tail
+
+data: FactBase, Fact, FactBaseElem
+Output: FactBase
+
+    new_el=creat(element)
+    fact(new_el) = fact
+    next(new_el) = Undefined
+    prev(new_el) = tail(premise)
+
+    if is_empty(head(premise)) then
+        head(premise) = new_el
+    else
+        next(tail(premise)) = new_el
+    end if
+
+    tail(premise) = new_el
+
+return premise
+
+-------------------------------------------------
+function FB_remove_fact
+
+data: FactBase, Fact
+output: FactBase
+
+    FactBase new_premise
+
+    if head(premise) = Undefined then
+        head(new_premise) = Undefined
+        tail(new_premise) = Undefined
+    else
+
+        if test_fact_equality(fact(head(premise)), fact_to_remove) then
+            new_premise = FB_remove_fact(FB_remove_head(premise), fact_to_remove)
+        else
+            FactBase smaller_premise = premise
+            head(smaller_premise) = next(head(smaller_premise))
+            new_premise = FB_insert_head(FB_remove_fact(smaller_premise, fact_to_remove, fact(head(premise))
+        end if
+    end if
+
+return new_premise    
+
+end
+
+------------------------------------------------
