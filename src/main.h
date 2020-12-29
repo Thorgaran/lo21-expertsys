@@ -9,6 +9,7 @@ typedef struct Fact {
 typedef struct FactBaseElem {
     Fact fact;
     struct FactBaseElem *next;
+    struct FactBaseElem *prev;
 } FactBaseElem;
 
 typedef struct FactBase {
@@ -24,6 +25,7 @@ typedef struct Rule {
 typedef struct RuleBaseElem {
     Rule rule;
     struct RuleBaseElem *next;
+    struct RuleBaseElem *prev;
 } RuleBaseElem;
 
 typedef struct RuleBase {
