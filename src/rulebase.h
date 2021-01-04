@@ -25,4 +25,12 @@ Rule rule_add_fact(Rule rule, Fact fact);
 
 Rule rule_remove_premise_fact(Rule rule, Fact fact);
 
+RuleBase RB_new();
+
+bool RB_is_empty(RuleBase rb);
+
+RuleBase RB_insert_head(RuleBase rb, Rule rule);
+
+RuleBase RB_remove_head(RuleBase rb);
+
 #endif // RULEBASE_H

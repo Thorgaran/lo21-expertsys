@@ -31,3 +31,46 @@ Rule rule_remove_premise_fact(Rule rule, Fact fact) {
 
     return rule;
 }
+
+RuleBase RB_new() {
+    RuleBase emp_RB = NULL;
+    return emp_RB;
+}
+
+
+bool RB_is_empty(RuleBase rb) {
+    if(rb == NULL) {
+        return true;
+    }
+    else {
+        return false;
+    } 
+}
+
+RuleBase RB_insert_head(RuleBase rb, Rule rule) {
+
+	RuleBaseElem* new_el;
+	new_el = (RuleBaseElem*)malloc(sizeof(RuleBaseElem));
+    new_el->rule = rule;
+
+	if (RB_is_empty(rb)) {
+		new_el->next = NULL;
+	}
+    else {
+		new_el->next = rb;
+	}
+	rb = new_el;
+
+	return rb;
+}
+
+RuleBase RB_remove_head(RuleBase rb) {
+    if(RB_is_empty(rb)) {
+        return NULL;
+    }
+    else {
+        RuleBase new_rb = rb->next;
+        free(rb);
+        return new_rb;
+    }
+}
