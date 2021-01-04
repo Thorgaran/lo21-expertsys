@@ -33,7 +33,15 @@ typedef struct RuleBase {
     RuleBaseElem *first;
 } RuleBase;
 
+Rule set_conclu(Rule rule, Fact conclu);
+
+Rule new_rule();
+
+bool is_premise_empty(Rule rule);
+
 bool test_fact_equality(Fact fact1, Fact fact2);
+
+FactBase FB_new();
 
 FactBase FB_insert_head(FactBase premise, Fact fact);
 

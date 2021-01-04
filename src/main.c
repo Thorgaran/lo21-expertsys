@@ -27,34 +27,33 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
-Fact creat_conclusion(Rule rule, int id, char* desc) {
-	rule.conclusion.id = id;
-	rule.conclusion.desc = desc;
+Rule set_conclu(Rule rule, Fact conclu) {
+	rule.conclusion = conclu;
 
-	return rule.conclusion;
+	return rule;
 }
 
-Rule empty_rule(){
+Rule new_rule() {
 	//crée une règle vide
     Rule emp_rule;
-	emp_rule.premise.head = NULL;
-	emp_rule.conclusion.id = NULL;
+	emp_rule.premise = FB_new();
+	emp_rule.conclusion.id = 0;
 	emp_rule.conclusion.desc = NULL;
 
 	return emp_rule;
 }
 
 
-void is_premise_empty(Rule rule){
+bool is_premise_empty(Rule rule) {
 	//vérifie si la premisse d'une règle est vide
-	if(rule.premise.head == NULL){
+	if (rule.premise.head == NULL) {
 		return true;
 	}
-	else{
+	else {
 		return false;
 	}
-
 }
+
 bool test_fact_equality(Fact fact1, Fact fact2) {
     if (fact1.id == fact2.id) {
         return true;
@@ -62,6 +61,15 @@ bool test_fact_equality(Fact fact1, Fact fact2) {
     else {
         return false;
     }
+}
+
+FactBase FB_new() {
+	//crée une base de faits vide
+	FactBase emp_fb;
+	emp_fb.head = NULL;
+	emp_fb.tail = NULL;
+
+	return emp_fb;
 }
 
 FactBase FB_insert_head(FactBase premise, Fact fact) {
@@ -103,8 +111,7 @@ FactBase FB_insert_tail(FactBase premise, Fact fact) {
 FactBase FB_remove_head(FactBase premise) {
 	FactBase new_premise;
 	if (premise.head == NULL) { // REMPLACER PAR ISEMPTY()
-		new_premise.head = NULL;
-        new_premise.tail = NULL;
+		new_premise = FB_new();
 	}
 	else {
 		new_premise.head = premise.head->next;
@@ -122,8 +129,7 @@ FactBase FB_remove_head(FactBase premise) {
 FactBase FB_remove_fact(FactBase premise, Fact fact_to_remove) {
     FactBase new_premise;
     if (premise.head == NULL) { // REMPLACER PAR ISEMPTY()
-        new_premise.head = NULL;
-        new_premise.tail = NULL;
+        new_premise = FB_new();
     }
     else {
         if (test_fact_equality(premise.head->fact, fact_to_remove)) {
