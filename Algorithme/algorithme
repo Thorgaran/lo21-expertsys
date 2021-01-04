@@ -13,23 +13,64 @@ while there is at least one fact f remaining in the FB
     end for
 
 end while
+----------------------------------------------------
+Function fact_new
 
+data: char, new_fact, integer ID;
+output: Fact
 
+ID = 0;
+
+Fact new_fact
+id(new_fact) = ID
+desc(new_fact)=desc
+return new_fact
+
+end
 ---------------------------------------------------
+Function fact_get_desc
 
-function is_premise_empty
+data: fact
+output:char
 
-data: rule
+return desc(fact)
+end
+---------------------------------------------------
+function fact_test_eq
+
+data: fact1, fact2
 output:true or false
 
-    if head(premise(rule)) = Undefined then
-        return true 
-    else
-         return false
-    end if
+if id(fact1) == id(fact2) then
+    return true
+else
+    return false
+end if
 end
+---------------------------------------------------
+Function FB_new
 
+Data: FactBase emp_fb
+output: emp_fb
+
+head(emp_fb) = NULL;
+tail(emp_fb) = NULL;
+
+return emp_fb
+end
 --------------------------------------------------
+function FB_is_empty
+
+Data: factbase fb
+output: true or false
+
+if(head(fb)) = Undefined then
+    return true
+else
+    return false
+end if
+end
+---------------------------------------------------
 
 function empty_rule
 
@@ -67,7 +108,7 @@ FactBaseElem new_el
     head(premise) = new_el
 
 return premise
-
+end
 -------------------------------------------------
 
 Function FB_insert_tail
@@ -89,7 +130,28 @@ Output: FactBase
     tail(premise) = new_el
 
 return premise
+end
+-------------------------------------------------
+function FB_remove_head
 
+data: factbase fb, FactBase new_fb
+output: factbase new_fb
+
+    if FB_is_empty(fb) then
+        new_fb = FB_new()
+    else
+        head(new_fb) = next(head(fb))
+        
+        if FB_is_empty = false then
+            prev(head(new_fb)) = Undefined
+        else
+            tail(new_fb) = NULL
+        end if
+        free(head(fb))
+    end if
+
+    return new_fb
+end
 -------------------------------------------------
 function FB_remove_fact
 
@@ -117,3 +179,106 @@ return new_premise
 end
 
 ------------------------------------------------
+
+KNOWLEDGE BASE
+
+-------------------------------------------------
+function is_premise_empty
+
+data: Rule rule
+output:true or false
+
+return FB_is_empty(premise(rule))
+end
+-------------------------------------------------
+Function rule_new
+
+data: fact conclu, rule emp_rule
+output: rule emp_rule
+
+    premise(emp_rule) = FB_new()
+    conclusion(emp_rule) = conclu
+
+    return emp_rule
+end
+-------------------------------------------------
+fonction rule_get_conclu
+
+data: Rule rule
+output: conclusion(rule)
+
+return conclusion(rule)
+
+end
+-------------------------------------------------
+function rule_add_fact
+
+data:Rule rule, Fact fact
+output: Rule rule
+    premise(rule) = FB_insert_tail(premise(rule))
+    return rule
+end
+-------------------------------------------------
+function rule_remove_premise_fact
+
+data: RUle rule
+output: Rule rule
+
+    premise(rule) = FB_remove_fact(premise(rule),fact)
+    return rule
+end
+-------------------------------------------------
+function RB_new
+
+data:Rulebase emp_RB
+output: RuleBase emp_RB
+
+    emp_RB = NULL
+    return emp_RB
+end
+-------------------------------------------------
+function RB_is_empty
+
+data: RulseBase rb
+output: boolean (true or false)
+
+    if rb = Undefined then
+        return true
+    else
+        return false
+    end  if 
+end
+-------------------------------------------------
+function RB_insert_head
+
+data: RuleBase rb, Rule rule, RuleBaseElem new_el
+output: RuleBase rb
+
+new_el = creat(element)
+    rule(new_el) = rule
+
+    if RB_is_empty(rb) then
+        next(new_el) = Undefined
+    else
+        next(new_el) = rb 
+    end if
+
+    rb = new_el
+
+return rb
+
+end
+-------------------------------------------------
+function RB_remove_head
+
+data: RuleBase rb, RuleBase new_rb
+output: RuleBase new_rb
+
+if RB_is_empty(rb) then
+    return Undefined
+else
+    new_rb=next(rb)
+    free(rb)
+    return new_rb
+end if
+end
