@@ -11,12 +11,9 @@ typedef struct Rule {
 typedef struct RuleBaseElem {
     Rule rule;
     struct RuleBaseElem *next;
-    struct RuleBaseElem *prev;
 } RuleBaseElem;
 
-typedef struct RuleBase {
-    RuleBaseElem *first;
-} RuleBase;
+typedef RuleBaseElem* RuleBase;
 
 bool rule_is_premise_empty(Rule rule);
 
