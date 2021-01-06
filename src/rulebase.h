@@ -18,7 +18,7 @@ typedef RuleBaseElem* RuleBase;
 
 bool rule_is_premise_empty(Rule rule);
 
-Rule rule_new();
+Rule rule_new(Fact conclu);
 
 Fact rule_get_conclu(Rule rule);
 

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include "factbase.h"
 
 Fact fact_new(char* desc) {
@@ -10,13 +11,38 @@ Fact fact_new(char* desc) {
 
     new_fact.id = ID;
     ID++;
-    new_fact.desc = desc;
+    strcpy(new_fact.desc, desc);
 
     return new_fact;
 }
 
 char* fact_get_desc(Fact fact) {
-    return fact.desc;
+    char* return_desc = "";
+    strcpy(return_desc, fact.desc);
+    return return_desc;
+}
+
+Fact fact_get_from_desc(FactBase fb, char* desc) {
+    Fact searched_fact;
+
+    if (FB_is_empty(fb)) {
+        searched_fact = fact_new(desc);
+    }
+    else {
+        FactBaseElem *cur_fact = fb.head;
+        bool found_fact = false;
+
+        while (cur_fact != NULL && found_fact == false) {
+            //si les chaines sont égales (et donc on a trouvé le fait cherché)
+            if (strcmp(cur_fact->fact.desc, desc) == 0) {
+                found_fact = true;
+                searched_fact = cur_fact->fact;
+            }
+            cur_fact = cur_fact->next;
+        }
+    }
+
+    return searched_fact;
 }
 
 bool fact_test_eq(Fact fact1, Fact fact2) {

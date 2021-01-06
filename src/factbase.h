@@ -3,7 +3,7 @@
 
 typedef struct Fact {
     unsigned int id;
-    char* desc;
+    char desc[256];
 } Fact;
 
 typedef struct FactBaseElem {
@@ -21,6 +21,8 @@ typedef struct FactBase {
 Fact fact_new(char* desc);
 
 char* fact_get_desc(Fact fact);
+
+Fact fact_get_from_desc(FactBase fb, char* desc);
 
 bool fact_test_eq(Fact fact1, Fact fact2);
 

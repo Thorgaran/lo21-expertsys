@@ -1,0 +1,12 @@
+A;Ca a des ailes
+B;C'est un avion
+C;Ca vole
+D;C'est un animal
+E;C'est noir
+F;C'est une chauve-souris
+G;C'est un oiseau
+
+A;B;D;E;
+C,D,C;G
+C,D,E;F
+A,B;C
