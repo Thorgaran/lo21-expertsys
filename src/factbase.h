@@ -36,4 +36,6 @@ FactBase FB_remove_head(FactBase fb);
 
 FactBase FB_remove_fact(FactBase fb, Fact fact_to_remove);
 
+void FB_display(FactBase fb, char* sep);
+
 #endif // FACTBASE_H

@@ -1,25 +1,51 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "rulebase.h"
+#include "moteur_inference.h"
 
 int main(int argc, char *argv[]){
-    printf("hello world");
 
-    Fact fact1, fact2, fact3;
-    fact1.id = 1;
-    fact2.id = 2;
-    fact3.id = 4;
+    Fact fact1 = fact_new("C'est un avion");
+	Fact fact2 = fact_new("Ca a des ailes");
+	Fact fact3 = fact_new("Ca vole!!!");
+	Fact fact4 = fact_new("C'est une souris");
+	Fact fact5 = fact_new("C'est chauve");
+	Fact fact6 = fact_new("C'est une chauve souris");
+	Fact fact7 = fact_new("C'est un Airbus A320");
 
-    FactBase test_base;
-    test_base.head = NULL;
-    test_base.tail = NULL;
+	Rule rule1 = rule_new(fact3);
+	rule1 = rule_add_fact(rule1, fact1);
+	rule1 = rule_add_fact(rule1, fact2);
 
-    test_base = FB_insert_tail(test_base, fact1);
-    test_base = FB_insert_tail(test_base, fact2);
-    test_base = FB_insert_tail(test_base, fact3);
+	Rule rule2 = rule_new(fact6);
+	rule2 = rule_add_fact(rule2, fact4);
+	rule2 = rule_add_fact(rule2, fact5);
+	rule2 = rule_add_fact(rule2, fact3);
 
-    test_base = FB_remove_fact(test_base, fact2);
+	Rule rule3 = rule_new(fact1);
+	rule3 = rule_add_fact(rule3, fact7);
+
+	RuleBase rb = RB_new();
+	rb = RB_insert_head(rb, rule1);
+	rb = RB_insert_head(rb, rule3);
+	rb = RB_insert_head(rb, rule2);
+
+	FactBase fb = FB_new();
+	fb = FB_insert_tail(fb, fact1);
+	fb = FB_insert_tail(fb, fact2);
+	fb = FB_insert_tail(fb, fact4);
+	fb = FB_insert_tail(fb, fact5);
+
+	printf("Rules:\n");
+	RB_display(rb);
+
+	printf("\nFacts before:\n");
+	FB_display(fb, "\n");
+
+	fb = moteur_inference(rb, fb);
+
+	printf("\n\nFacts after:\n");
+	FB_display(fb, "\n");
 
     getchar();
 

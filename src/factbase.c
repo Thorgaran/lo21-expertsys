@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include "factbase.h"
 
@@ -90,6 +91,7 @@ FactBase FB_remove_head(FactBase fb) {
 		new_fb.head = fb.head->next;
 		if (!FB_is_empty(new_fb)) {
 			new_fb.head->prev = NULL;
+            new_fb.tail = fb.tail;
 		}
         else {
             new_fb.tail = NULL;
@@ -111,8 +113,25 @@ FactBase FB_remove_fact(FactBase fb, Fact fact_to_remove) {
         else {
             FactBase smaller_fb = fb;
             smaller_fb.head = smaller_fb.head->next;
+            if (FB_is_empty(smaller_fb)) {
+                smaller_fb.tail = NULL;
+            }
             new_fb = FB_insert_head(FB_remove_fact(smaller_fb, fact_to_remove), fb.head->fact);
         }
     }
     return new_fb;
+}
+
+void FB_display(FactBase fb, char* sep) {
+    if (FB_is_empty(fb)) {
+        printf("-");
+    }
+    else {
+        FactBaseElem *cur_fact = fb.head;
+        while (cur_fact->next != NULL) {
+            printf("%s%s", cur_fact->fact.desc, sep);
+            cur_fact = cur_fact->next;
+        }
+        printf("%s", cur_fact->fact.desc);
+    }
 }
